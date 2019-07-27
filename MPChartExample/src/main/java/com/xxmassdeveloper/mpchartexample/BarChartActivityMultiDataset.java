@@ -80,7 +80,7 @@ public class BarChartActivityMultiDataset extends DemoBase implements OnSeekBarC
         mv.setChartView(chart); // For bounds control
         chart.setMarker(mv); // Set the marker to the chart
 
-        seekBarX.setProgress(10);
+        seekBarX.setProgress(3);
         seekBarY.setProgress(100);
 
         Legend l = chart.getLegend();
@@ -98,6 +98,8 @@ public class BarChartActivityMultiDataset extends DemoBase implements OnSeekBarC
         xAxis.setTypeface(tfLight);
         xAxis.setGranularity(1f);
         xAxis.setCenterAxisLabels(true);
+        xAxis.setDrawGridLines(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -108,8 +110,12 @@ public class BarChartActivityMultiDataset extends DemoBase implements OnSeekBarC
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setTypeface(tfLight);
         leftAxis.setValueFormatter(new LargeValueFormatter());
-        leftAxis.setDrawGridLines(false);
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setDrawAxisLine(false);
         leftAxis.setSpaceTop(35f);
+        leftAxis.setYOffset(-10);
+        leftAxis.setTextSize(26);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         chart.getAxisRight().setEnabled(false);
@@ -118,9 +124,9 @@ public class BarChartActivityMultiDataset extends DemoBase implements OnSeekBarC
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-        float groupSpace = 0.08f;
-        float barSpace = 0.03f; // x4 DataSet
-        float barWidth = 0.2f; // x4 DataSet
+        float groupSpace = 0.5f;
+        float barSpace = -0.25f; // x4 DataSet
+        float barWidth = 0.5f; // x4 DataSet
         // (0.2 + 0.03) * 4 + 0.08 = 1.00 -> interval per "group"
 
         int groupCount = seekBarX.getProgress() + 1;
@@ -132,30 +138,22 @@ public class BarChartActivityMultiDataset extends DemoBase implements OnSeekBarC
 
         ArrayList<BarEntry> values1 = new ArrayList<>();
         ArrayList<BarEntry> values2 = new ArrayList<>();
-        ArrayList<BarEntry> values3 = new ArrayList<>();
-        ArrayList<BarEntry> values4 = new ArrayList<>();
 
         float randomMultiplier = seekBarY.getProgress() * 100000f;
 
         for (int i = startYear; i < endYear; i++) {
             values1.add(new BarEntry(i, (float) (Math.random() * randomMultiplier)));
             values2.add(new BarEntry(i, (float) (Math.random() * randomMultiplier)));
-            values3.add(new BarEntry(i, (float) (Math.random() * randomMultiplier)));
-            values4.add(new BarEntry(i, (float) (Math.random() * randomMultiplier)));
         }
 
-        BarDataSet set1, set2, set3, set4;
+        BarDataSet set1, set2;
 
         if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
 
             set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
             set2 = (BarDataSet) chart.getData().getDataSetByIndex(1);
-            set3 = (BarDataSet) chart.getData().getDataSetByIndex(2);
-            set4 = (BarDataSet) chart.getData().getDataSetByIndex(3);
             set1.setValues(values1);
             set2.setValues(values2);
-            set3.setValues(values3);
-            set4.setValues(values4);
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
 
@@ -165,12 +163,8 @@ public class BarChartActivityMultiDataset extends DemoBase implements OnSeekBarC
             set1.setColor(Color.rgb(104, 241, 175));
             set2 = new BarDataSet(values2, "Company B");
             set2.setColor(Color.rgb(164, 228, 251));
-            set3 = new BarDataSet(values3, "Company C");
-            set3.setColor(Color.rgb(242, 247, 158));
-            set4 = new BarDataSet(values4, "Company D");
-            set4.setColor(Color.rgb(255, 102, 0));
 
-            BarData data = new BarData(set1, set2, set3, set4);
+            BarData data = new BarData(set1, set2);
             data.setValueFormatter(new LargeValueFormatter());
             data.setValueTypeface(tfLight);
 

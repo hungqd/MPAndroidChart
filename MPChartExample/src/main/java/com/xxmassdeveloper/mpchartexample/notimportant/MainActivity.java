@@ -34,6 +34,7 @@ import com.xxmassdeveloper.mpchartexample.LineChartTime;
 import com.xxmassdeveloper.mpchartexample.ListViewBarChartActivity;
 import com.xxmassdeveloper.mpchartexample.ListViewMultiChartActivity;
 import com.xxmassdeveloper.mpchartexample.MultiLineChartActivity;
+import com.xxmassdeveloper.mpchartexample.MultipleOverlapping;
 import com.xxmassdeveloper.mpchartexample.PerformanceLineChart;
 import com.xxmassdeveloper.mpchartexample.PieChartActivity;
 import com.xxmassdeveloper.mpchartexample.PiePolylineChartActivity;
@@ -120,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         objects.add(34, new ContentItem("Dynamic", "Build a line chart by adding points and sets."));
         objects.add(35, new ContentItem("Realtime", "Add data points in realtime."));
         objects.add(36, new ContentItem("Hourly", "Uses the current time to add a data point for each hour."));
-        //objects.add(37, new ContentItem("Realm.io Examples", "See more examples that use Realm.io mobile database."));
+        objects.add(37, new ContentItem("Multiple & bar overlapping", "Multiple with bar overlapping "));
+        //objects.add(38, new ContentItem("Realm.io Examples", "See more examples that use Realm.io mobile database."));
 
         MyAdapter adapter = new MyAdapter(this, objects);
 
@@ -229,7 +231,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             case 36:
                 i = new Intent(this, LineChartTime.class);
                 break;
-            /*case 37:
+            case 38:
+                i = new Intent(this, MultipleOverlapping.class);
+                break;
+            /*case 38:
                 i = new Intent(this, RealmMainActivity.class);
                 break;*/
         }
